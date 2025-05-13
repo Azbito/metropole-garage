@@ -1,5 +1,5 @@
+import { type TranslationKeys, translations } from '@/i18n';
 import { create } from 'zustand';
-import { translations, type TranslationKeys } from '@/i18n';
 
 type Language = keyof typeof translations;
 

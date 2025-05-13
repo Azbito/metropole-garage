@@ -1,7 +1,9 @@
 import { StrictMode } from 'react';
+
+import HomePage from '@/pages/home.tsx';
+import '@/styles/global.css';
+
 import { createRoot } from 'react-dom/client';
-import './styles/global.css';
-import HomePage from './pages/home.tsx';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
