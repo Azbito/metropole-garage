@@ -1,0 +1,14 @@
+@layer utilities {
+    .grid-mobile {
+        @media (max-height: 1000px) {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+
+    .custom-position-container {
+        @media (max-height: 1000px) {
+            display: flex;
+            gap: 1rem;
+        }
+    }
+}
