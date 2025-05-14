@@ -19,19 +19,30 @@ const prettierConfig = {
     singleAttributePerLine: false,
     importOrder: [
         '^react$',
+        '',
         '<THIRD_PARTY_MODULES>',
+        '',
         '^@/stores/(.*)$',
+        '',
         '^@/components/(.*)$',
+        '',
         '^@/hooks/(.*)$',
+        '',
         '^@/services/(.*)$',
+        '',
         '^@/utils/(.*)$',
+        '',
         '^@/18n/(.*)$',
+        '',
         '^[./]',
     ],
     importOrderSortSpecifiers: true,
     importOrderSeparation: true,
 
-    plugins: ['prettier-plugin-tailwindcss'],
+    plugins: [
+        'prettier-plugin-tailwindcss',
+        '@ianvs/prettier-plugin-sort-imports',
+    ],
 };
 
 export default prettierConfig;
