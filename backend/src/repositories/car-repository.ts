@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-
+import { v4 as uuidv4 } from 'uuid';
 import { ICar } from '@/interfaces/car';
 
 export class CarRepository {
@@ -18,6 +18,11 @@ export class CarRepository {
     }
 
     public async createCar(data: ICar): Promise<ICar> {
-        return await this.prisma.car.create({ data });
+        return await this.prisma.car.create({
+            data: {
+                ...data,
+                id: uuidv4(),
+            },
+        });
     }
 }
