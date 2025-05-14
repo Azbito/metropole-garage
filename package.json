@@ -1,0 +1,36 @@
+{
+  "name": "metropole-garage",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cd frontend && npm run dev",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "frontend/**/*.{js,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write \"**/*.{ts,js,tsx, jsx}\""
+    ],
+    "backend/**/*.{js,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write \"**/*.{ts,js,prisma}\""
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azbito/metropole-garage.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Azbito/metropole-garage/issues"
+  },
+  "homepage": "https://github.com/Azbito/metropole-garage#readme",
+  "description": "",
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.0.0"
+  }
+}
