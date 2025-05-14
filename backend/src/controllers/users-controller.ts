@@ -8,8 +8,9 @@ export class UserController {
         private userService: UserService
     ) {}
 
-    public async registerRoutes() {
-        this.fastify.post('/register', this.registerUser.bind(this));
+    public async userRoutes() {
+        this.fastify.post('/user/register', this.registerUser.bind(this));
+        this.fastify.post('/user/auth', this.authenticate.bind(this));
     }
 
     private async registerUser(request: FastifyRequest, reply: FastifyReply) {
@@ -35,5 +36,17 @@ export class UserController {
 
             return reply.status(400).send({ error: '❌ Invalid user data' });
         }
+    }
+
+    private async authenticate(request: FastifyRequest, reply: FastifyReply) {
+        const { vanityUrl } = request.body as { vanityUrl: string };
+
+        const result = await this.userService.authenticateWithSteam(vanityUrl);
+
+        if (!result) {
+            return reply.status(401).send({ error: 'Authentication failed' });
+        }
+
+        return reply.send(result);
     }
 }

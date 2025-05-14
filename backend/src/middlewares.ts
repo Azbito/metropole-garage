@@ -1,5 +1,5 @@
-import Fastify, { type FastifyReply, type FastifyRequest } from 'fastify';
 import jwt from '@fastify/jwt';
+import Fastify, { type FastifyReply, type FastifyRequest } from 'fastify';
 
 const fastify = Fastify();
 
