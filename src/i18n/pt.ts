@@ -31,11 +31,13 @@ export const pt: Record<string, string> = {
     'axis-z': 'Z',
     'save-vehicle': 'Salvar veículo',
     about: `
+    <p>
      Bem-vindo à nossa plataforma! Somos dedicados a fornecer a melhor
         experiência em <b>FiveM.</b> Nossa missão
         é oferecer um sistema de garagem interativo e fácil de usar para
         <b>jogadores de GTA RP.</b> Com a nossa
         plataforma, você pode gerenciar seus veículos, visualizar detalhes como
         modelo, cor e placa, e até mesmo spawnar veículos diretamente no jogo,
-        com facilidade e sem complicação.`,
+        com facilidade e sem complicação.
+    </p>`,
 };
