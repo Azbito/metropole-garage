@@ -1,7 +1,9 @@
+import { Smile } from 'react-feather';
+
 import { SafeHTML } from '@/components/safe-html';
 import { Card } from '@/components/ui/card';
+
 import { useTranslation } from '@/hooks/use-translation';
-import { Smile } from 'react-feather';
 
 export function About() {
     const { t } = useTranslation();

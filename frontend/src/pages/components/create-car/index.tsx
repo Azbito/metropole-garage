@@ -1,5 +1,10 @@
 import { useState } from 'react';
+
+import { Star } from 'react-feather';
+
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
     Dialog,
     DialogContent,
@@ -9,10 +14,9 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Star } from 'react-feather';
+
 import { useTranslation } from '@/hooks/use-translation';
-import { Calendar } from '@/components/ui/calendar';
+
 import './styles.css';
 
 type Customizations = {

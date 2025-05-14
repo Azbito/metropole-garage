@@ -1,10 +1,13 @@
-import { Card } from '@/components/ui/card';
-import { useTranslation } from '@/hooks/use-translation';
-import type { Car } from '@/interfaces/car-interface';
 import { useState } from 'react';
-import { Key, Tool, MapPin, User, Droplet, Shield, Frown } from 'react-feather';
+
 import CarIcon from '@/assets/icons/car.svg?react';
 import Color from '@/assets/icons/color.svg?react';
+import type { Car } from '@/interfaces/car-interface';
+import { Droplet, Frown, Key, MapPin, Shield, Tool, User } from 'react-feather';
+
+import { Card } from '@/components/ui/card';
+
+import { useTranslation } from '@/hooks/use-translation';
 
 function CarCard({ car }: { car: Car }) {
     const { t } = useTranslation();

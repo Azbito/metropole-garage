@@ -1,4 +1,5 @@
 import { SafeHTML } from '@/components/safe-html';
+
 import { useTranslation } from '@/hooks/use-translation';
 
 export function Title() {
