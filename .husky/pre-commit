@@ -7,3 +7,8 @@ npm run lint
 npm run format
 
 cd ../
+
+cd backend
+
+npm run lint
+npm run format
