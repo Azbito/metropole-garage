@@ -1,4 +1,4 @@
-import cors from '@fastify/cors';
+import fastifyCookie from '@fastify/cookie';
 import dotenv from 'dotenv';
 import Fastify from 'fastify';
 
@@ -7,12 +7,15 @@ import prismaPlugin from '@/plugins/prisma';
 import { carRoutes } from '@/routes/cars-routes';
 import { userRoutes } from '@/routes/users-routes';
 
+import middlewares from './middlewares';
+
 dotenv.config();
 
 const app = Fastify();
 
-app.register(cors);
+app.register(fastifyCookie);
 app.register(prismaPlugin);
+app.register(middlewares);
 app.register(carRoutes);
 app.register(userRoutes);
 

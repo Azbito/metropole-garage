@@ -3,6 +3,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 import type { UserRepository } from '@/repositories/user-repository';
 
+import { fiveMIDToSteamID64 } from '@/utils/steam-id';
+
 interface PlayerSummaryResponse {
     response: {
         players: Array<{
@@ -12,29 +14,26 @@ interface PlayerSummaryResponse {
     };
 }
 
-interface ResolveVanityResponse {
-    response: {
-        success: number;
-        steamid?: string;
-        message?: string;
-    };
-}
-
 export class UserService {
     constructor(
         private userRepository: UserRepository,
         private fastify: FastifyInstance
     ) {}
 
-    public async authenticateWithSteam(vanityUrl: string): Promise<{
-        user: { id: string; steam_id: string; created_at: Date };
+    public async authenticateWithSteam(steamId: string): Promise<{
+        user: {
+            id: string;
+            steam_id: string;
+            created_at: Date;
+            name: string;
+            avatar: string;
+        };
         token: string;
     } | null> {
-        const steamId = await this.getSteamUserIdByUsername(vanityUrl);
-
         if (!steamId) return null;
 
         const profile = await this.getSteamProfile(steamId);
+
         if (!profile) return null;
 
         let user = await this.userRepository.findBySteamId(steamId);
@@ -45,6 +44,7 @@ export class UserService {
                 steam_id: steamId,
                 created_at: new Date(),
             });
+
             if (!user) return null;
         }
 
@@ -58,57 +58,7 @@ export class UserService {
             }
         );
 
-        return { user, token };
-    }
-
-    public async createUser(data: unknown): Promise<{
-        user: { id: string; steam_id: string; created_at: Date };
-    } | null> {
-        try {
-            if (typeof data !== 'object' || data === null || !('id' in data)) {
-                return null;
-            }
-
-            const { id } = data as { id: string };
-            const profile = await this.getSteamProfile(id);
-
-            if (!profile) return null;
-
-            const userToCreate: {
-                id: string;
-                steam_id: string;
-                created_at: Date;
-            } = {
-                id: uuidv4(),
-                steam_id: id,
-                created_at: new Date(),
-            };
-
-            return await this.userRepository.create(userToCreate);
-        } catch {
-            return null;
-        }
-    }
-
-    private async getSteamUserIdByUsername(
-        username: string
-    ): Promise<string | null> {
-        const apiKey = process.env.STEAM_API_KEY;
-        const url = `https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=${apiKey}&vanityurl=${username}`;
-
-        try {
-            const response = await fetch(url);
-            const data = (await response.json()) as ResolveVanityResponse;
-
-            if (data.response.success !== 1 || !data.response.steamid) {
-                return null;
-            }
-
-            return data.response.steamid;
-        } catch (error) {
-            console.error('getSteamUserIdByUsername:', error);
-            return null;
-        }
+        return { user: { ...user, ...profile }, token };
     }
 
     private async getSteamProfile(
@@ -116,8 +66,8 @@ export class UserService {
     ): Promise<{ name: string; avatar: string } | null> {
         if (!steamId) return null;
 
-        const apiKey = process.env.STEAM_API_KEY;
-        const url = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${apiKey}&steamids=${steamId}`;
+        const apiKey = process.env.STEAM_KEY;
+        const url = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${apiKey}&steamids=${fiveMIDToSteamID64(steamId)}`;
 
         try {
             const response = await fetch(url);

@@ -1,14 +1,18 @@
 import { FIVEM_API } from '@/config';
 
 import { CarRepository } from '@/repositories/car-repository';
+import { UserRepository } from '@/repositories/user-repository';
 
 import { createCarValidator } from '@/validators/car/create-validator';
 import { spawnCarValidator } from '@/validators/car/spawn-car-validator';
 
-import { ICar } from '@/interfaces/car';
+import { CreateCarInput, ICar } from '@/interfaces/car';
 
 export class CarService {
-    constructor(private carRepository: CarRepository) {}
+    constructor(
+        private carRepository: CarRepository,
+        private userRepository: UserRepository
+    ) {}
 
     public async getCarsByOwner(owner: string): Promise<ICar[]> {
         return await this.carRepository.getCarsByUser(owner);
@@ -19,13 +23,26 @@ export class CarService {
     }
 
     public async createCar(data: unknown): Promise<ICar | null> {
-        const carData = createCarValidator({ data });
+        const input = data as CreateCarInput;
 
-        if (!carData) {
+        if (!input.userId) {
             return null;
         }
 
-        return await this.carRepository.createCar(carData);
+        const user = await this.userRepository.findBySteamId(input.userId);
+
+        if (!user) {
+            return null;
+        }
+
+        const carData = createCarValidator({ data: input });
+
+        if (!carData) return null;
+
+        return await this.carRepository.createCar({
+            ...carData,
+            userId: user.id,
+        });
     }
 
     public async spawn(data: unknown): Promise<boolean> {
@@ -33,13 +50,15 @@ export class CarService {
         if (!payload) return false;
 
         try {
-            await fetch(FIVEM_API, {
+            const res = await fetch(FIVEM_API, {
                 method: 'POST',
                 body: JSON.stringify(payload),
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
+
+            if (!res) return false;
 
             return true;
         } catch (e) {

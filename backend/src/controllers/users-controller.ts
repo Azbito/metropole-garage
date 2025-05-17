@@ -9,44 +9,33 @@ export class UserController {
     ) {}
 
     public async userRoutes() {
-        this.fastify.post('/user/register', this.registerUser.bind(this));
         this.fastify.post('/user/auth', this.authenticate.bind(this));
     }
 
-    private async registerUser(request: FastifyRequest, reply: FastifyReply) {
-        const { body } = request;
-
-        try {
-            const res = await this.userService.createUser(body);
-
-            if (!res) {
-                return reply.status(400).send({
-                    error: '❌ Invalid user data',
-                });
-            }
-
-            return reply.send(res);
-        } catch (error) {
-            if (error instanceof Error) {
-                return reply.status(400).send({
-                    error: '❌ Invalid user data',
-                    details: error.message,
-                });
-            }
-
-            return reply.status(400).send({ error: '❌ Invalid user data' });
-        }
-    }
-
     private async authenticate(request: FastifyRequest, reply: FastifyReply) {
-        const { vanityUrl } = request.body as { vanityUrl: string };
+        const steamId = request.cookies['steamId'] as string | undefined;
+        if (!steamId) {
+            return reply
+                .status(401)
+                .send({ error: 'Steam ID missing in cookies' });
+        }
 
-        const result = await this.userService.authenticateWithSteam(vanityUrl);
+        const result = await this.userService.authenticateWithSteam(steamId);
 
         if (!result) {
             return reply.status(401).send({ error: 'Authentication failed' });
         }
 
-        return reply.send(result);
+        const ONE_WEEK = 60 * 60 * 24 * 7;
+
+        return reply
+            .setCookie('token', result.token, {
+                httpOnly: true,
+                secure: true,
+                sameSite: 'strict',
+                path: '/',
+                maxAge: ONE_WEEK,
+            })
+            .send(result.user);
     }
 }

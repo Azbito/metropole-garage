@@ -7,7 +7,15 @@ export interface ICar {
     userId: string | null;
     damage: number;
     fuel: number;
-    x?: number;
-    y?: number;
-    z?: number;
+}
+
+export interface CreateCarInput {
+    plate: string;
+    model: string;
+    primaryColor: string;
+    secondaryColor: string;
+    userId: string;
+    damage: number;
+    fuel: number;
+    purchaseDate?: string;
 }
