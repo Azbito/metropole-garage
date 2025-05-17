@@ -5,34 +5,31 @@ const prisma = new PrismaClient();
 async function main() {
     const cars = [
         {
-            id: 'car3211321421123',
-            plate: 'VITU',
+            id: 'car321232123',
+            plate: 'RQWDSA',
             model: 'schafter2',
             primaryColor: '#FFFFFF',
             secondaryColor: '#FF0000',
-            damage: 0,
-            fuel: 100,
-            locked: true,
+            damage: 100,
+            fuel: 0,
         },
         {
-            id: 'car4213212',
-            plate: 'XYZ9312312876',
+            id: '132123',
+            plate: 'rwqeqwwqr',
             model: 'dukes',
             primaryColor: '#0000FF',
             secondaryColor: '#FFFFFF',
             damage: 10,
             fuel: 80,
-            locked: false,
         },
         {
-            id: 'car3213',
-            plate: 'JKL4521367',
+            id: 'ewqeqwrfsdf',
+            plate: 'rewgdf',
             model: 'gauntlet',
             primaryColor: '#00FF00',
             secondaryColor: '#FFFF00',
             damage: 5,
             fuel: 50,
-            locked: true,
         },
     ];
 

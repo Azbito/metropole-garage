@@ -1,4 +1,4 @@
-import { hexToInt } from "../utils/hex";
+import { hexToRgb } from "../utils/hex";
 
 onNet(
   "garage:spawnVehicle",
@@ -42,15 +42,20 @@ onNet(
 
       if (vehicle) {
         SetVehicleNumberPlateText(vehicle, plate);
-        SetVehicleColours(
-          vehicle,
-          hexToInt(color.primary),
-          hexToInt(color.secondary)
-        );
 
+        const primary = hexToRgb(color.primary);
+        const secondary = hexToRgb(color.secondary);
+
+        SetVehicleCustomPrimaryColour(vehicle, primary.r, primary.g, primary.b);
+        SetVehicleCustomSecondaryColour(
+          vehicle,
+          secondary.r,
+          secondary.g,
+          secondary.b
+        );
         SetVehicleBodyHealth(vehicle, 1000 - damage * 10);
         SetVehicleEngineHealth(vehicle, 1000 - damage * 10);
-
+        SetVehicleFuelLevel(vehicle, fuel);
         SetVehicleDoorsLocked(vehicle, locked ? 2 : 1);
 
         SetPedIntoVehicle(playerPed, vehicle, -1);
