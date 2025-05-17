@@ -5,18 +5,19 @@ import type { ICar } from '@/interfaces/car';
 const carSchema = z.object({
     plate: z.string(),
     model: z.string(),
+    userId: z.string(),
+    damage: z.number(),
     primaryColor: z.string(),
     secondaryColor: z.string(),
-    userId: z.string().nullable(),
-    damage: z.number(),
     fuel: z.number(),
 });
 
-export function createCarValidator({ data }: { data: unknown }): ICar | null {
+export function spawnCarValidator({ data }: { data: unknown }): ICar | null {
     try {
         const res = carSchema.parse(data);
         return res;
-    } catch {
+    } catch (e) {
+        console.error(e);
         return null;
     }
 }

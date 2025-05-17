@@ -15,7 +15,6 @@ model Car {
   secondaryColor String
   damage         Int
   fuel           Int
-  locked         Boolean
   purchaseDate   DateTime @default(now())
   user           User?    @relation(fields: [userId], references: [id])
   userId         String?

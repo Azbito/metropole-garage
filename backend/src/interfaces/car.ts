@@ -1,12 +1,13 @@
 export interface ICar {
-    id: string;
+    id?: string;
     plate: string;
     model: string;
     primaryColor: string;
     secondaryColor: string;
+    userId: string | null;
     damage: number;
     fuel: number;
-    locked: boolean;
-    purchaseDate: Date;
-    userId: string | null;
+    x?: number;
+    y?: number;
+    z?: number;
 }

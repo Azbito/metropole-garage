@@ -10,7 +10,8 @@ export class CarController {
 
     public async registerRoutes() {
         this.fastify.get('/cars/:owner', this.getCarsByOwner.bind(this));
-        this.fastify.get('/cars/spawn/:plate', this.spawnCarByPlate.bind(this));
+        this.fastify.get('/cars/plate/:plate', this.getCarByPlate.bind(this));
+        this.fastify.post('/cars/spawn', this.spawnCar.bind(this));
         this.fastify.post('/cars', this.createCar.bind(this));
     }
 
@@ -27,14 +28,29 @@ export class CarController {
         }
     }
 
-    private async spawnCarByPlate(
-        request: FastifyRequest,
-        reply: FastifyReply
-    ) {
+    private async spawnCar(request: FastifyRequest, reply: FastifyReply) {
+        try {
+            const res = await this.carService.spawn(request.body);
+
+            if (!res) {
+                return reply
+                    .status(500)
+                    .send({ error: '❌ Failed to spawn car' });
+            }
+
+            await this.carService.createCar(request.body);
+
+            return reply.status(200).send({ message: '🎈 Success!' });
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    private async getCarByPlate(request: FastifyRequest, reply: FastifyReply) {
         const { plate } = request.params as { plate: string };
 
         try {
-            const car = await this.carService.spawnCarByPlate(plate);
+            const car = await this.carService.getCarByPlate(plate);
             if (!car) {
                 return reply.status(200).send({ error: '❌ Car not found' });
             }
