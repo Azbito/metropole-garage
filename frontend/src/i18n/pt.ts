@@ -19,6 +19,10 @@ export const pt: Record<string, string> = {
     purchaseDate: 'Data de Compra',
     yes: 'Sim',
     no: 'Não',
+    invalidData: 'Dado inválido!',
+    selectAModel: 'Selecione um modelo',
+    primaryColor: 'Cor primária',
+    secondaryColor: 'Cor secundária',
 
     customizations: 'Customizações',
     rims: 'Rodas',
