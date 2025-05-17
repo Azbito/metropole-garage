@@ -1,5 +1,3 @@
-import * as net from 'net';
-
 import { FIVEM_API } from '@/config';
 
 import { CarRepository } from '@/repositories/car-repository';
