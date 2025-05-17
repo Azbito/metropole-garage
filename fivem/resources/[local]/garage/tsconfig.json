@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "ESNext",
+    "rootDir": "./src",
+    "strict": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "declaration": false,
+    "noEmit": true,
+    "types": ["@citizenfx/server", "@citizenfx/client", "@types/node"]
+  },
+  "include": ["src"]
+}
