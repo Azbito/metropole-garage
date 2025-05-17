@@ -27,3 +27,19 @@ frontend/*.sw?
 
 backend/node_modules
 backend/.env
+
+fivem-server/*.dll
+fivem-server/*.gitignore
+fivem-server/crashes
+fivem-server/citizen
+fivem-server/*.bat
+fivem-server/*.crt
+fivem-server/*.key
+fivem-server/*.git
+fivem-server/*.exe
+fivem-server/*.json
+fivem-server/cfx-server-data-master/cache
+fivem-server/cfx-server-data-master/.replxx_history
+fivem-server/cfx-server-data-master/ignore.git
+fivem-server/cfx-server-data-master/*.cfg
+fivem-server/cfx-server-data-master/resources/\[local]/fivem/dist

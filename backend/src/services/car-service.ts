@@ -8,7 +8,7 @@ export class CarService {
     constructor(private carRepository: CarRepository) {}
 
     public async getCarsByOwner(owner: string): Promise<ICar[]> {
-        return await this.carRepository.getCarsByOwner(owner);
+        return await this.carRepository.getCarsByUser(owner);
     }
 
     public async spawnCarByPlate(plate: string): Promise<ICar | null> {

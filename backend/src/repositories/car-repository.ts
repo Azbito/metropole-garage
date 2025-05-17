@@ -6,9 +6,9 @@ import { ICar } from '@/interfaces/car';
 export class CarRepository {
     private prisma = new PrismaClient();
 
-    public async getCarsByOwner(owner: string): Promise<ICar[]> {
+    public async getCarsByUser(userId: string): Promise<ICar[]> {
         return await this.prisma.car.findMany({
-            where: { owner },
+            where: { userId },
         });
     }
 
@@ -18,7 +18,7 @@ export class CarRepository {
         });
     }
 
-    public async createCar(data: ICar): Promise<ICar> {
+    public async createCar(data: Omit<ICar, 'id'>): Promise<ICar> {
         return await this.prisma.car.create({
             data: {
                 ...data,

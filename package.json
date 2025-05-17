@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "cd frontend && npm run dev",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky"
   },
@@ -30,7 +29,12 @@
   "homepage": "https://github.com/Azbito/metropole-garage#readme",
   "description": "",
   "devDependencies": {
+    "@citizenfx/client": "^2.0.15015-1",
+    "@citizenfx/server": "^2.0.14862-1",
+    "@types/node": "^22.15.18",
     "husky": "^9.1.7",
-    "lint-staged": "^16.0.0"
+    "lint-staged": "^16.0.0",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
   }
 }

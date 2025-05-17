@@ -3,8 +3,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import type { UserRepository } from '@/repositories/user-repository';
 
-import type { IUser } from '@/interfaces/user';
-
 interface PlayerSummaryResponse {
     response: {
         players: Array<{
@@ -28,9 +26,10 @@ export class UserService {
         private fastify: FastifyInstance
     ) {}
 
-    public async authenticateWithSteam(
-        vanityUrl: string
-    ): Promise<{ user: IUser; token: string } | null> {
+    public async authenticateWithSteam(vanityUrl: string): Promise<{
+        user: { id: string; steam_id: string; created_at: Date };
+        token: string;
+    } | null> {
         const steamId = await this.getSteamUserIdByUsername(vanityUrl);
 
         if (!steamId) return null;
@@ -62,7 +61,9 @@ export class UserService {
         return { user, token };
     }
 
-    public async createUser(data: unknown): Promise<IUser | null> {
+    public async createUser(data: unknown): Promise<{
+        user: { id: string; steam_id: string; created_at: Date };
+    } | null> {
         try {
             if (typeof data !== 'object' || data === null || !('id' in data)) {
                 return null;
@@ -73,7 +74,11 @@ export class UserService {
 
             if (!profile) return null;
 
-            const userToCreate: IUser = {
+            const userToCreate: {
+                id: string;
+                steam_id: string;
+                created_at: Date;
+            } = {
                 id: uuidv4(),
                 steam_id: id,
                 created_at: new Date(),
