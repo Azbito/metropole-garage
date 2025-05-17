@@ -1,19 +1,11 @@
-interface Customizations {
-    rims: string;
-    spoiler: string;
-    neon: boolean;
-    performance: string;
-}
-
 export interface Car {
+    id: string;
     plate: string;
     model: string;
-    color: string;
-    customizations: Customizations;
-    owner: string;
+    primaryColor: string;
+    secondaryColor: string;
+    userId: string;
     damage: number;
     fuel: number;
-    locked: boolean;
-    position: [number, number, number];
-    purchaseDate: Date;
+    purchaseDate: Date | string;
 }

@@ -17,11 +17,12 @@ import { useTranslation } from '@/hooks/use-translation';
 
 import './styles.css';
 
-import { api } from '@/lib/api';
-
+import { useCarStore } from '@/stores/use-cars-store';
 import { useLoaderStore } from '@/stores/use-preloader';
 
 import { ColorPickerPopover } from '@/components/color-picker';
+
+import { spawnCar } from '@/services/cars/spawn';
 
 import { ModelsSelect } from './models';
 
@@ -38,6 +39,7 @@ type CarData = {
 
 export function CreateCar() {
     const { t } = useTranslation();
+    const { addCar, cars } = useCarStore();
     const { setLoader } = useLoaderStore();
 
     const [form, setForm] = useState<CarData>({
@@ -54,6 +56,7 @@ export function CreateCar() {
     const [errors, setErrors] = useState<
         Partial<Record<keyof CarData, boolean>>
     >({});
+    const [doesCarExist, setDoesCarExist] = useState<boolean>(false);
 
     const updateField = <K extends keyof CarData>(
         key: K,
@@ -66,6 +69,7 @@ export function CreateCar() {
     const handleSubmit = useCallback(
         async (e: FormEvent) => {
             e.preventDefault();
+            setDoesCarExist(false);
 
             const newErrors: Partial<Record<keyof CarData, boolean>> = {};
 
@@ -81,14 +85,24 @@ export function CreateCar() {
 
             try {
                 setLoader(true);
-                await api().post('/cars/spawn', form);
+
+                const res = await spawnCar({ data: form });
+
+                if (!res) return;
+
+                if (cars.find((item) => item.plate === res.plate)) {
+                    setDoesCarExist(true);
+                    return;
+                }
+
+                addCar(res);
             } catch (e) {
                 console.error(e);
             } finally {
                 setLoader(false);
             }
         },
-        [form, errors]
+        [form, setLoader]
     );
 
     return (
@@ -204,6 +218,12 @@ export function CreateCar() {
                                 </p>
                             )}
                         </div>
+
+                        {doesCarExist && (
+                            <b className="bg-red-800 text-white px-2 py-1 rounded-md text-sm">
+                                {t('existingCarWarn')}
+                            </b>
+                        )}
 
                         <Button
                             type="submit"

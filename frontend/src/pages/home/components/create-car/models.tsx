@@ -8,7 +8,7 @@ import {
 
 import { useTranslation } from '@/hooks/use-translation';
 
-import { vehicleModels } from './data/models';
+import { vehicleModels } from '../../../../data/models';
 
 export function ModelsSelect({
     selectedModel,

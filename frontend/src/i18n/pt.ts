@@ -5,7 +5,9 @@ export const pt: Record<string, string> = {
     slogan: `Seu <b>carro novo</b> começa
         <b>aqui</b>`,
     'create-car': 'Criar carro',
+    existingCarWarn: 'Já existe um carro com essa placa',
     model: 'Modelo',
+    colors: 'Cores',
     color: 'Cor',
     plate: 'Placa',
     owner: 'Proprietário',
@@ -13,7 +15,7 @@ export const pt: Record<string, string> = {
     'fuel-percentage': 'Porcentagem de combustível (%)',
     damage: 'Danificado',
     'save-car': 'Spawnar carro',
-    fuel: 'Combustível',
+    fuel: 'Tanque',
     locked: 'Bloqueado',
     position: 'Posição',
     purchaseDate: 'Data de Compra',
