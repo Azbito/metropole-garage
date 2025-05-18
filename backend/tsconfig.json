@@ -10,6 +10,8 @@
         "resolveJsonModule": true,
         "skipLibCheck": true,
         "typeRoots": ["./node_modules/@types", "./src/@types"],
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
         "baseUrl": ".",
         "paths": {
             "@/*": ["./src/*"]

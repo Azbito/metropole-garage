@@ -1,40 +1,15 @@
-import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyReply, FastifyRequest } from 'fastify';
 
 import { CarService } from '@/services/car-service';
 
 import { CreateCarInput } from '@/interfaces/car';
+import { inject, injectable } from 'tsyringe';
 
+@injectable()
 export class CarController {
-    constructor(
-        private fastify: FastifyInstance,
-        private carService: CarService
-    ) {}
+    constructor(@inject(CarService) private carService: CarService) {}
 
-    public async registerRoutes() {
-        this.fastify.get(
-            '/cars/:owner',
-            { preValidation: [this.fastify.authenticate] },
-            this.getCarsByOwner.bind(this)
-        );
-        this.fastify.get('/cars/plate/:plate', this.getCarByPlate.bind(this));
-        this.fastify.post(
-            '/cars/spawn',
-            { preValidation: [this.fastify.authenticate] },
-            this.spawnCar.bind(this)
-        );
-        this.fastify.post(
-            '/cars',
-            { preValidation: [this.fastify.authenticate] },
-            this.createCar.bind(this)
-        );
-        this.fastify.get(
-            '/cars',
-            { preValidation: [this.fastify.authenticate] },
-            this.getMyCars.bind(this)
-        );
-    }
-
-    private async getMyCars(request: FastifyRequest, _reply: FastifyReply) {
+    public async getMyCars(request: FastifyRequest, _reply: FastifyReply) {
         const { sub } = request.user as {
             sub: string;
         };
@@ -48,7 +23,7 @@ export class CarController {
         }
     }
 
-    private async getCarsByOwner(request: FastifyRequest, reply: FastifyReply) {
+    public async getCarsByOwner(request: FastifyRequest, reply: FastifyReply) {
         const { owner } = request.params as { owner: string };
 
         try {
@@ -61,15 +36,21 @@ export class CarController {
         }
     }
 
-    private async spawnCar(request: FastifyRequest, reply: FastifyReply) {
+    public async spawnCar(request: FastifyRequest, reply: FastifyReply) {
         try {
             const body = request.body as CreateCarInput;
             const existentCar = await this.carService.getCarByPlate(body.plate);
+            const { steamId } = request.user as {
+                steamId: string;
+            };
 
             const car =
                 existentCar || (await this.carService.createCar(request.body));
 
-            const res = await this.carService.spawn(request.body);
+            const res = await this.carService.spawn({
+                ...body,
+                userId: steamId,
+            });
 
             if (!res) {
                 return reply
@@ -84,7 +65,7 @@ export class CarController {
         }
     }
 
-    private async getCarByPlate(request: FastifyRequest, reply: FastifyReply) {
+    public async getCarByPlate(request: FastifyRequest, reply: FastifyReply) {
         const { plate } = request.params as { plate: string };
 
         try {
@@ -99,7 +80,7 @@ export class CarController {
         }
     }
 
-    private async createCar(request: FastifyRequest, reply: FastifyReply) {
+    public async createCar(request: FastifyRequest, reply: FastifyReply) {
         const { body } = request;
 
         try {

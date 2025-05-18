@@ -7,11 +7,13 @@ import { createCarValidator } from '@/validators/car/create-validator';
 import { spawnCarValidator } from '@/validators/car/spawn-car-validator';
 
 import { CreateCarInput, ICar } from '@/interfaces/car';
+import { inject, injectable } from 'tsyringe';
 
+@injectable()
 export class CarService {
     constructor(
-        private carRepository: CarRepository,
-        private userRepository: UserRepository
+        @inject(CarRepository) private carRepository: CarRepository,
+        @inject(UserRepository) private userRepository: UserRepository
     ) {}
 
     public async getCarsByOwner(owner: string): Promise<ICar[]> {

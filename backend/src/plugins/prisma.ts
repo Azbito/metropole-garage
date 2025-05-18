@@ -1,13 +1,19 @@
-import { PrismaClient } from '@prisma/client';
-import fp from 'fastify-plugin';
+import { Prisma } from '@/libs/prisma';
+import { FastifyInstance } from 'fastify';
+import { injectable, inject } from 'tsyringe';
 
-export default fp(async (fastify) => {
-    const prisma = new PrismaClient();
-    await prisma.$connect();
+@injectable()
+export class PrismaPlugin {
+    constructor(
+        @inject('FastifyInstance') private app: FastifyInstance,
+        @inject(Prisma) private prisma: Prisma
+    ) {
+        this.prisma.client.$connect();
 
-    fastify.decorate('prisma', prisma);
+        this.app.decorate('prisma', this.prisma.client);
 
-    fastify.addHook('onClose', async () => {
-        await prisma.$disconnect();
-    });
-});
+        this.app.addHook('onClose', async () => {
+            await this.prisma.client.$disconnect();
+        });
+    }
+}

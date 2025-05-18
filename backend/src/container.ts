@@ -1,0 +1,44 @@
+import { Prisma } from '@/libs/prisma';
+import { AuthPlugin } from '@/middlewares';
+import { FastifyInstance } from 'fastify';
+import { container } from 'tsyringe';
+
+import { PrismaPlugin } from '@/plugins/prisma';
+
+import { CarRoutes } from '@/routes/car-routes';
+import { UserRoutes } from '@/routes/user-routes';
+
+import { CarController } from '@/controllers/car-controller';
+import { UserController } from '@/controllers/user-controller';
+
+import { CarService } from '@/services/car-service';
+import { UserService } from '@/services/user-service';
+
+import { CarRepository } from '@/repositories/car-repository';
+import { UserRepository } from '@/repositories/user-repository';
+
+export function registerDependencies(fastify: FastifyInstance) {
+    container.registerInstance<FastifyInstance>('FastifyInstance', fastify);
+
+    container.register(Prisma, { useClass: Prisma });
+
+    //* Repositories
+    container.register(UserRepository, { useClass: UserRepository });
+    container.register(CarRepository, { useClass: CarRepository });
+
+    //* Services
+    container.register(UserService, { useClass: UserService });
+    container.register(CarService, { useClass: CarService });
+
+    //* Controllers
+    container.register(UserController, { useClass: UserController });
+    container.register(CarController, { useClass: CarController });
+
+    //* Plugins
+    container.resolve(PrismaPlugin);
+    container.resolve(AuthPlugin);
+
+    //* Routes
+    container.resolve(CarRoutes);
+    container.resolve(UserRoutes);
+}

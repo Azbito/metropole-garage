@@ -1,9 +1,10 @@
 import type { FastifyInstance } from 'fastify';
 import { v4 as uuidv4 } from 'uuid';
 
-import type { UserRepository } from '@/repositories/user-repository';
+import { UserRepository } from '@/repositories/user-repository';
 
 import { fiveMIDToSteamID64 } from '@/utils/steam-id';
+import { inject, injectable } from 'tsyringe';
 
 interface PlayerSummaryResponse {
     response: {
@@ -14,10 +15,11 @@ interface PlayerSummaryResponse {
     };
 }
 
+@injectable()
 export class UserService {
     constructor(
-        private userRepository: UserRepository,
-        private fastify: FastifyInstance
+        @inject(UserRepository) private userRepository: UserRepository,
+        @inject('FastifyInstance') private fastify: FastifyInstance
     ) {}
 
     public async authenticateWithSteam(steamId: string): Promise<{
