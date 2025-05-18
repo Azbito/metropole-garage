@@ -1,21 +1,21 @@
-import fetch from "node-fetch";
-import { PayloadProps } from "../types";
-import { API_URL } from "../config";
+import { ICar } from "../interfaces/car";
+import { PayloadProps } from "../interfaces/payload";
 
 export class VehicleManager {
   private activeVehicles: Map<string, number> = new Map();
-
   async spawnVehicle({
     source,
     plate,
     payload,
+    getFunction,
   }: {
     source?: number;
     plate?: string;
-    payload?: PayloadProps;
-  }) {
+    payload?: PayloadProps | null;
+    getFunction: (plate: string) => Promise<ICar | null>;
+  }): Promise<void> {
     try {
-      const vehicle = plate ? await this.getByPlate(plate) : payload;
+      const vehicle = plate ? await getFunction(plate) : payload;
 
       if (!vehicle) {
         emitNet("chat:addMessage", source, {
@@ -62,22 +62,6 @@ export class VehicleManager {
       emitNet("chat:addMessage", source, {
         args: ["^1System", "Error while searching for vehicle."],
       });
-    }
-  }
-
-  private async getByPlate(plate: string) {
-    try {
-      const response = await fetch(`${API_URL}/cars/plate/${plate}`);
-
-      if (!response.ok) {
-        return null;
-      }
-
-      const data = await response.json();
-      return data || null;
-    } catch (error) {
-      console.error("[ERROR]:", error);
-      return null;
     }
   }
 

@@ -29,8 +29,6 @@
   "homepage": "https://github.com/Azbito/metropole-garage#readme",
   "description": "",
   "devDependencies": {
-    "@citizenfx/client": "^2.0.15015-1",
-    "@citizenfx/server": "^2.0.14862-1",
     "@types/node": "^22.15.18",
     "@types/node-fetch": "^2.6.12",
     "husky": "^9.1.7",

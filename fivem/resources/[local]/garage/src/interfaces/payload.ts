@@ -1,4 +1,4 @@
-export type PayloadProps = {
+export interface PayloadProps {
   damage: number;
   fuel: number;
   model: string;
@@ -8,4 +8,4 @@ export type PayloadProps = {
   secondaryColor: string;
   userId: string;
   source: number;
-};
+}

@@ -1,6 +1,9 @@
+import { HTTP } from "../classes/http";
 import { VehicleManager } from "../classes/vehicle-manager";
+import { API_URL } from "../config";
+import { ICar } from "../interfaces/car";
+import { PayloadProps } from "../interfaces/payload";
 import { getSourceFromSteamID } from "../steam";
-import { PayloadProps } from "../types";
 
 const vehicleManager = new VehicleManager();
 
@@ -46,9 +49,17 @@ SetHttpHandler(
           return;
         }
 
+        const httpReq = new HTTP();
+
         await vehicleManager.spawnVehicle({
           source,
           payload,
+          getFunction: (plate: string): Promise<ICar | null> => {
+            const urlString = `${API_URL}/cars/plate/${encodeURIComponent(
+              plate
+            )}`;
+            return httpReq.get(urlString);
+          },
         });
 
         res.writeHead(200, { "Content-Type": "application/json" });
@@ -86,7 +97,18 @@ RegisterCommand(
 
       const plate = args[0].toUpperCase();
 
-      await vehicleManager.spawnVehicle({ source, plate });
+      const httpReq = new HTTP();
+
+      await vehicleManager.spawnVehicle({
+        source,
+        plate,
+        getFunction: (plate: string): Promise<ICar | null> => {
+          const urlString = `${API_URL}/cars/plate/${encodeURIComponent(
+            plate
+          )}`;
+          return httpReq.get(urlString);
+        },
+      });
     } catch (e) {
       console.error(e);
     }

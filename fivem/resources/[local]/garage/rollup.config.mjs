@@ -18,18 +18,18 @@ export default [
       typescript({ sourceMap: true }),
     ],
   },
-  {
-    input: 'src/client/index.ts',
-    output: {
-      file: 'dist/client/index.js',
-      format: 'cjs',
-      sourcemap: true,
-    },
-    plugins: [
-      resolve({ preferBuiltins: true }),
-      commonjs(),
-      json(),
-      typescript({ sourceMap: true }),
-    ],
+ {
+  input: 'src/client/index.ts',
+  output: {
+    file: 'dist/client/index.js',
+    format: 'iife',     
+    sourcemap: true,
   },
+  plugins: [
+    resolve({ browser: true }),
+    commonjs(),
+    json(),
+    typescript({ sourceMap: true }),
+  ],
+}
 ];
