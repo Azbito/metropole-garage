@@ -1,7 +1,7 @@
 import { Car } from '@/interfaces/car-interface';
 import { api } from '@/lib/api';
 
-type DataProps = {
+export type DataProps = {
     plate: string;
     model: string;
     primaryColor: string;
