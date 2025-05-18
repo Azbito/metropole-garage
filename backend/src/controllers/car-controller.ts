@@ -39,7 +39,9 @@ export class CarController {
     public async spawnCar(request: FastifyRequest, reply: FastifyReply) {
         try {
             const body = request.body as CreateCarInput;
+
             const existentCar = await this.carService.getCarByPlate(body.plate);
+
             const { steamId } = request.user as {
                 steamId: string;
             };

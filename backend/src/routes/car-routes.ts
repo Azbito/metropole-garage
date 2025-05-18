@@ -13,30 +13,30 @@ export class CarRoutes {
         this.fastify.get(
             '/cars/:owner',
             { preValidation: [fastify.authenticate] },
-            this.carController.getCarsByOwner.bind(this)
+            this.carController.getCarsByOwner.bind(this.carController)
         );
 
         this.fastify.get(
             '/cars/plate/:plate',
-            this.carController.getCarByPlate.bind(this)
+            this.carController.getCarByPlate.bind(this.carController)
         );
 
         this.fastify.get(
             '/cars',
             { preValidation: [fastify.authenticate] },
-            this.carController.getMyCars.bind(this)
+            this.carController.getMyCars.bind(this.carController)
         );
 
         this.fastify.post(
             '/cars/spawn',
             { preValidation: [fastify.authenticate] },
-            this.carController.spawnCar.bind(this)
+            this.carController.spawnCar.bind(this.carController)
         );
 
         this.fastify.post(
             '/cars',
             { preValidation: [fastify.authenticate] },
-            this.carController.createCar.bind(this)
+            this.carController.createCar.bind(this.carController)
         );
     }
 }

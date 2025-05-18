@@ -2,6 +2,7 @@
   "scripts": {
     "build": "rollup -c"
   },
+  "private": true,
   "type": "module",
   "devDependencies": {
     "@citizenfx/client": "2.0.15015-1",

@@ -59,7 +59,7 @@ export class CarService {
                     'Content-Type': 'application/json',
                 },
             });
-
+            console.log('FIVEM', res);
             if (!res) return false;
 
             return true;
