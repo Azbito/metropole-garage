@@ -4,10 +4,14 @@ import { CarService } from '@/services/car-service';
 
 import { CreateCarInput } from '@/interfaces/car';
 import { inject, injectable } from 'tsyringe';
+import { UserService } from '@/services/user-service';
 
 @injectable()
 export class CarController {
-    constructor(@inject(CarService) private carService: CarService) {}
+    constructor(
+        @inject(CarService) private carService: CarService,
+        @inject(UserService) private userService: UserService
+    ) {}
 
     public async getMyCars(request: FastifyRequest, _reply: FastifyReply) {
         const { sub } = request.user as {
@@ -48,6 +52,18 @@ export class CarController {
 
             const car =
                 existentCar || (await this.carService.createCar(request.body));
+
+            const user = await this.userService.getById(car?.userId as string);
+
+            if (
+                car?.userId &&
+                car.userId.trim().length > 0 &&
+                user?.steam_id !== steamId
+            ) {
+                return reply
+                    .status(500)
+                    .send({ error: "❌ You are not the car's owner" });
+            }
 
             const res = await this.carService.spawn({
                 ...body,

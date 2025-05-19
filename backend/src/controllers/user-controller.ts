@@ -11,14 +11,18 @@ export class UserController {
     ) {}
 
     public async authenticate(request: FastifyRequest, reply: FastifyReply) {
-        const steamId = request.cookies['steamId'] as string | undefined;
+        const steamId =
+            request.headers['x-steam-id'] || request.cookies['steamId'];
+        console.log(steamId);
         if (!steamId) {
             return reply
                 .status(401)
                 .send({ error: 'Steam ID missing in cookies' });
         }
 
-        const result = await this.userService.authenticateWithSteam(steamId);
+        const result = await this.userService.authenticateWithSteam(
+            steamId as string
+        );
 
         if (!result) {
             return reply.status(401).send({ error: 'Authentication failed' });
@@ -34,6 +38,6 @@ export class UserController {
                 path: '/',
                 maxAge: ONE_WEEK,
             })
-            .send(result.user);
+            .send({ user: result.user, token: result.token });
     }
 }

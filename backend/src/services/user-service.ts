@@ -5,6 +5,7 @@ import { UserRepository } from '@/repositories/user-repository';
 
 import { fiveMIDToSteamID64 } from '@/utils/steam-id';
 import { inject, injectable } from 'tsyringe';
+import { IUser } from '@/interfaces/user';
 
 interface PlayerSummaryResponse {
     response: {
@@ -61,6 +62,18 @@ export class UserService {
         );
 
         return { user: { ...user, ...profile }, token };
+    }
+
+    public async getById(id: string): Promise<IUser | null> {
+        if (!id) return null;
+
+        try {
+            const res = await this.userRepository.getById(id);
+            return res;
+        } catch (e) {
+            console.error(e);
+            return null;
+        }
     }
 
     private async getSteamProfile(

@@ -52,14 +52,14 @@ export class CarService {
         if (!payload) return false;
 
         try {
-            const res = await fetch(FIVEM_API, {
+            const res = await fetch(`${FIVEM_API}/spawn`, {
                 method: 'POST',
                 body: JSON.stringify(payload),
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
-
+            console.log('res', res);
             if (!res) return false;
 
             return true;

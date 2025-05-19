@@ -25,4 +25,12 @@ export class UserRepository {
             },
         });
     }
+
+    public async getById(id: string): Promise<IUser | null> {
+        return await this.prisma.client.user.findFirst({
+            where: {
+                id,
+            },
+        });
+    }
 }
