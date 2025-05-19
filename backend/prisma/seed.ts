@@ -20,9 +20,9 @@ async function main() {
             where: { id: `availablecar-${index}` },
             update: {},
             create: {
-                id: `d99e02a2-b283-4732-8b41-7f9b8e47031b$${index}`,
+                id: `4e7c0a2c-a2ff-4a76-98e3-d87036320b59$${index}`,
                 car_model: model,
-                user_id: 'd99e02a2-b283-4732-8b41-7f9b8e47031b',
+                user_id: '4e7c0a2c-a2ff-4a76-98e3-d87036320b59',
             },
         });
     }

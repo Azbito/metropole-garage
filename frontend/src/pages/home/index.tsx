@@ -49,8 +49,19 @@ export default function HomePage() {
     }, []);
 
     const closeUI = () => {
-        axios.post(`https://mymode/close`, {}).catch((error) => {
-            console.error('Error while closing the UI:', error);
+        axios.post(`https://garage/close`, {}).catch((error) => {
+            if (error.response) {
+                console.error('Error response data:', error.response.data);
+                console.error('Error response status:', error.response.status);
+                console.error(
+                    'Error response headers:',
+                    error.response.headers
+                );
+            } else if (error.request) {
+                console.error('No response received:', error.request);
+            } else {
+                console.error('Error message:', error.message);
+            }
         });
     };
 
@@ -66,7 +77,7 @@ export default function HomePage() {
         <>
             <Wrapper
                 className={cn(
-                    isFiveM ? 'bg-black/30 backdrop-blur-md' : 'bg-background',
+                    isFiveM ? 'blur' : 'bg-background',
                     'min-h-screen'
                 )}
             >
