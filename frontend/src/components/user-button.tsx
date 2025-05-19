@@ -12,8 +12,8 @@ import {
 
 import { useSteam } from '@/hooks/use-steam';
 
-export function UserButton() {
-    const { user } = useSteam();
+export function UserButton({ isFiveM }: { isFiveM: boolean }) {
+    const { user } = useSteam(isFiveM);
 
     if (!user) return null;
 
@@ -38,15 +38,17 @@ export function UserButton() {
                     </span>
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem
-                    onClick={handleLogout}
-                    className="cursor-pointer"
-                >
-                    <LogOut className="w-4 h-4 mr-2" />
-                    Desconectar
-                </DropdownMenuItem>
-            </DropdownMenuContent>
+            {!isFiveM && (
+                <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem
+                        onClick={handleLogout}
+                        className="cursor-pointer"
+                    >
+                        <LogOut className="w-4 h-4 mr-2" />
+                        Desconectar
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            )}
         </DropdownMenu>
     );
 }

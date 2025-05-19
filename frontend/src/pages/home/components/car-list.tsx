@@ -83,10 +83,10 @@ function CarCard({ car }: { car: Car }) {
     );
 }
 
-export function CarList() {
+export function CarList({ isFiveM }: { isFiveM: boolean }) {
     const { cars, addCar } = useCarStore();
     const { t } = useTranslation();
-    const { user } = useSteam();
+    const { user } = useSteam(isFiveM);
 
     const timerRef = useRef<NodeJS.Timeout | null>(null);
     const [openDialogCar, setOpenDialogCar] = useState<Car | null>(null);
@@ -96,8 +96,6 @@ export function CarList() {
         window.matchMedia('(pointer: coarse)').matches;
 
     const handleListCars = useCallback(async () => {
-        if (!user?.steam_id) return;
-
         const data = await listCars();
         for (const car of data) {
             addCar(car);
@@ -106,8 +104,7 @@ export function CarList() {
 
     const handleSpawnCar = useCallback(async (car: Car) => {
         try {
-            const res = await spawnCar({ data: car as DataProps });
-            console.log(res);
+            await spawnCar({ data: car as DataProps });
         } catch (e) {
             console.error('Error while spawning the car', e);
         }
@@ -116,7 +113,7 @@ export function CarList() {
     useEffect(() => {
         if (!user?.steam_id) return;
         handleListCars();
-    }, [user]);
+    }, [user?.steam_id]);
 
     return (
         <div className="mt-16">

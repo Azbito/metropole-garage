@@ -1,5 +1,7 @@
-import { VehicleManager } from "../classes/vehicle-manager";
-import { hexToRgb } from "../utils/hex";
+import { VehicleManager } from "@/classes/vehicle-manager";
+import { hexToRgb } from "@/utils/hex";
+import "./ui";
+import { activeVehicles } from "@/data/active-vehicles";
 
 interface VehicleData {
   model: string;
@@ -74,12 +76,12 @@ onNet("garage:spawnVehicle", async (vehicleData: VehicleData) => {
 onNet("garage:despawnVehicle", (data: { plate: string }) => {
   try {
     if (!data?.plate || typeof data.plate !== "string") {
-      throw new Error("Placa inválida ou ausente.");
+      throw new Error("Invalid plate.");
     }
 
     const searchPlate = data.plate.trim().toUpperCase();
 
-    const vehicleManager = new VehicleManager();
+    const vehicleManager = new VehicleManager(activeVehicles);
     const vehicles = vehicleManager.getAllVehicles();
 
     for (const vehicle of vehicles) {
@@ -93,6 +95,6 @@ onNet("garage:despawnVehicle", (data: { plate: string }) => {
       }
     }
   } catch (err) {
-    console.error("Falha ao remover o veículo:", err);
+    console.error("Failed while removing the vehicle:", err);
   }
 });

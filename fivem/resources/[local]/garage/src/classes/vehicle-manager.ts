@@ -2,7 +2,8 @@ import { ICar } from "../interfaces/car";
 import { PayloadProps } from "../interfaces/payload";
 
 export class VehicleManager {
-  private activeVehicles: Map<string, number> = new Map();
+  constructor(private activeVehicles: Map<string, number> = new Map()) {}
+
   async spawnVehicle({
     source,
     plate,
@@ -25,6 +26,7 @@ export class VehicleManager {
       }
 
       const existingSource = this.activeVehicles.get(vehicle.plate);
+
       if (existingSource !== undefined) {
         emitNet("garage:despawnVehicle", existingSource, {
           plate: vehicle.plate,

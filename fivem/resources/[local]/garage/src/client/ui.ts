@@ -1,19 +1,22 @@
+SetNuiFocus(false, false);
+
+RegisterNuiCallbackType("close");
+
 RegisterCommand(
   "car-manager",
-  (source: number, args: string[]) => {
-    const showUI = args[0] === "true";
-
-    SetNuiFocus(showUI, showUI);
+  () => {
+    SetNuiFocus(true, true);
     SendNUIMessage({
-      action: showUI ? "show" : "hide",
+      action: "show",
     });
   },
   false
 );
 
-RegisterNuiCallbackType("close");
-
-on("__cfx_nui:close", (data: any, cb: (result: any) => void) => {
+on("__cfx_nui:close", (_data: any, cb: (result: any) => void) => {
   SetNuiFocus(false, false);
+  SendNUIMessage({
+    action: "hide",
+  });
   cb({});
 });

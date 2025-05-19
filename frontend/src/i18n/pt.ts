@@ -5,6 +5,7 @@ export const pt: Record<string, string> = {
     slogan: `Seu <b>carro novo</b> começa
         <b>aqui</b>`,
     'create-car': 'Criar carro',
+    close: 'Fechar',
     existingCarWarn: 'Já existe um carro com essa placa',
     model: 'Modelo',
     seeModel: 'Ver modelo',

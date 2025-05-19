@@ -1,11 +1,14 @@
 import { api } from '@/lib/api';
 
 export async function authenticate(): Promise<{
-    id: string;
-    steam_id: string;
-    created_at: Date;
-    name: string;
-    avatar: string;
+    user: {
+        id: string;
+        steam_id: string;
+        created_at: Date;
+        name: string;
+        avatar: string;
+    };
+    token: string;
 } | null> {
     try {
         const res = await api().post('/user/auth');

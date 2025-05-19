@@ -5,20 +5,19 @@ author 'Azbito'
 version '1.0.0'
 
 server_scripts {
-    'dist/server/*.js'
+    'dist/server/*.js',
+    'src/lua/server.lua'
 }
 
 client_scripts {
-    'dist/client/*.js'
+    'dist/client/*.js',
+    'src/lua/client.lua'
 }
 
 files {
-    'ui/index.html',
-    'ui/assets/*.js',
-    'ui/assets/*.css',
-    'ui/vite.svg'
+    'ui/dist/**/*'
 }
 
-ui_page 'ui/index.html'
+ui_page 'ui/dist/index.html'
 
 dependency 'chat'
