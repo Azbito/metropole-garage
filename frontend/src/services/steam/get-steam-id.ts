@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export async function getMySteamID(): Promise<string | null> {
     try {
-        const res = await axios.post('https://mymode/me', {});
+        const res = await axios.post('https://garage/me', {});
         const { data } = res;
 
         return data;
