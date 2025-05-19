@@ -13,7 +13,7 @@ export class CarController {
         @inject(UserService) private userService: UserService
     ) {}
 
-    public async getMyCars(request: FastifyRequest, _reply: FastifyReply) {
+    public async getMyCars(request: FastifyRequest, reply: FastifyReply) {
         const { sub } = request.user as {
             sub: string;
         };
@@ -21,9 +21,10 @@ export class CarController {
         try {
             const res = await this.carService.getCarsByOwner(sub);
 
-            return res;
+            return reply.send(res);
         } catch (e) {
             console.error('Error while getting your cars', e);
+            return null;
         }
     }
 

@@ -3,41 +3,27 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-    const cars = [
-        {
-            id: 'car321232123',
-            plate: 'RQWDSA',
-            model: 'schafter2',
-            primaryColor: '#FFFFFF',
-            secondaryColor: '#FF0000',
-            damage: 100,
-            fuel: 0,
-        },
-        {
-            id: '132123',
-            plate: 'rwqeqwwqr',
-            model: 'dukes',
-            primaryColor: '#0000FF',
-            secondaryColor: '#FFFFFF',
-            damage: 10,
-            fuel: 80,
-        },
-        {
-            id: 'ewqeqwrfsdf',
-            plate: 'rewgdf',
-            model: 'gauntlet',
-            primaryColor: '#00FF00',
-            secondaryColor: '#FFFF00',
-            damage: 5,
-            fuel: 50,
-        },
+    const availableModels = [
+        'alpha',
+        'banshee',
+        'bestiagts',
+        'blista2',
+        'blista3',
+        'buffalo',
+        'buffalo2',
+        'buffalo3',
+        'calico',
     ];
 
-    for (const car of cars) {
-        await prisma.car.upsert({
-            where: { id: car.id },
+    for (const [index, model] of availableModels.entries()) {
+        await prisma.availableUserCars.upsert({
+            where: { id: `availablecar-${index}` },
             update: {},
-            create: car,
+            create: {
+                id: `d99e02a2-b283-4732-8b41-7f9b8e47031b$${index}`,
+                car_model: model,
+                user_id: 'd99e02a2-b283-4732-8b41-7f9b8e47031b',
+            },
         });
     }
 

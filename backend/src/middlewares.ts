@@ -33,13 +33,12 @@ export class AuthPlugin {
             'authenticate',
             async (request: FastifyRequest, reply: FastifyReply) => {
                 try {
-                    console.log('...');
                     await request.jwtVerify();
                 } catch (e) {
                     console.error(e);
                     const authHeader = request.headers.authorization;
                     const steamIdHeader = request.headers['x-steam-id'];
-                    console.log(request.headers, steamIdHeader);
+
                     if (!authHeader?.startsWith('Bearer ')) {
                         return reply
                             .code(401)

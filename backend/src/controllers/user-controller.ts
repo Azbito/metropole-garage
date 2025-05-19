@@ -1,19 +1,16 @@
-import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyReply, FastifyRequest } from 'fastify';
 
 import { UserService } from '@/services/user-service';
 import { inject, injectable } from 'tsyringe';
 
 @injectable()
 export class UserController {
-    constructor(
-        @inject('FastifyInstance') private fastify: FastifyInstance,
-        @inject(UserService) private userService: UserService
-    ) {}
+    constructor(@inject(UserService) private userService: UserService) {}
 
     public async authenticate(request: FastifyRequest, reply: FastifyReply) {
         const steamId =
             request.headers['x-steam-id'] || request.cookies['steamId'];
-        console.log(steamId);
+
         if (!steamId) {
             return reply
                 .status(401)

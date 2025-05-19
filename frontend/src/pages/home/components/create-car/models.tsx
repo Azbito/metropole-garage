@@ -1,3 +1,9 @@
+import { useCallback, useEffect, useState } from 'react';
+
+import { VehicleModels, vehicleModels } from '@/data/models';
+
+import { useSteamStore } from '@/stores/use-steam-store';
+
 import {
     Select,
     SelectContent,
@@ -8,7 +14,7 @@ import {
 
 import { useTranslation } from '@/hooks/use-translation';
 
-import { vehicleModels } from '../../../../data/models';
+import { getAvailableUserModels } from '@/services/available-models';
 
 export function ModelsSelect({
     selectedModel,
@@ -18,6 +24,38 @@ export function ModelsSelect({
     setSelectedModel: (value: string) => void;
 }) {
     const { t } = useTranslation();
+    const { user } = useSteamStore();
+    const [models, setModels] = useState<VehicleModels[]>([]);
+
+    const handleGetModels = useCallback(async () => {
+        const res = await getAvailableUserModels();
+
+        if (res.length === 0) return;
+
+        const formattedRes = res.reduce(
+            (acc: VehicleModels[], cur: { car_model: string }) => {
+                const targetModel = vehicleModels.find(
+                    (model) => model.value === cur.car_model
+                );
+
+                if (targetModel) {
+                    acc.push({
+                        label: targetModel.label,
+                        value: targetModel.value,
+                    });
+                }
+
+                return acc;
+            },
+            []
+        );
+
+        setModels(formattedRes);
+    }, []);
+
+    useEffect(() => {
+        handleGetModels();
+    }, [user?.steam_id]);
 
     return (
         <Select value={selectedModel} onValueChange={setSelectedModel}>
@@ -25,7 +63,7 @@ export function ModelsSelect({
                 <SelectValue placeholder={t('selectAModel')} />
             </SelectTrigger>
             <SelectContent>
-                {vehicleModels.map((model) => (
+                {models.map((model) => (
                     <SelectItem key={model.value} value={model.value}>
                         {model.label}
                     </SelectItem>

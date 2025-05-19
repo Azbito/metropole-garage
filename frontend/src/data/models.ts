@@ -1,4 +1,4 @@
-interface VehicleModels {
+export interface VehicleModels {
     label: string;
     value: string;
 }
@@ -16,4 +16,5 @@ export const vehicleModels: VehicleModels[] = [
     { label: 'Carbonizzare', value: 'carbonizzare' },
     { label: 'Comet', value: 'comet2' },
     { label: 'Comet Retro Custom', value: 'comet3' },
+    { label: 'Dukes', value: 'dukes' },
 ];

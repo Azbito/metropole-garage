@@ -17,6 +17,8 @@ import { useTranslation } from '@/hooks/use-translation';
 
 import './styles.css';
 
+import Cookies from 'js-cookie';
+
 import { useCarStore } from '@/stores/use-cars-store';
 import { useLoaderStore } from '@/stores/use-preloader';
 
@@ -47,7 +49,7 @@ export function CreateCar() {
         model: '',
         primaryColor: '',
         secondaryColor: '',
-        userId: '110000134934047',
+        userId: Cookies.get('steamId') || localStorage.getItem('steamId') || '',
         damage: 0,
         fuel: 100,
         purchaseDate: new Date().toISOString().split('T')[0],
@@ -62,6 +64,17 @@ export function CreateCar() {
         key: K,
         value: CarData[K]
     ) => {
+        if (key === 'plate' && typeof value === 'string') {
+            if (value.length > 8) return;
+        }
+
+        if ((key === 'fuel' || key === 'damage') && typeof value === 'number') {
+            const clampedValue = Math.min(100, value);
+            setForm((prev) => ({ ...prev, [key]: clampedValue }));
+            setErrors((prev) => ({ ...prev, [key]: false }));
+            return;
+        }
+
         setForm((prev) => ({ ...prev, [key]: value }));
         setErrors((prev) => ({ ...prev, [key]: false }));
     };
