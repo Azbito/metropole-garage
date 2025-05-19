@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { cn } from '@/lib/utils';
 import axios from 'axios';
 
 import { useLoaderStore } from '@/stores/use-preloader';
@@ -63,7 +64,12 @@ export default function HomePage() {
 
     return (
         <>
-            <Wrapper>
+            <Wrapper
+                className={cn(
+                    isFiveM ? 'bg-black/30 backdrop-blur-md' : 'bg-background',
+                    'min-h-screen'
+                )}
+            >
                 <Title />
                 <Main>
                     <About />
