@@ -24,6 +24,11 @@ frontend/*.ntvs*
 frontend/*.njsproj
 frontend/*.sln
 frontend/*.sw?
+frontend/**/*.d.ts
+!frontend/src/@types/**/*.d.ts
 
 backend/node_modules
 backend/.env
+
+fivem/resources/\[local\]/garage/dist
+fivem/resources/\[local\]/garage/node_modules

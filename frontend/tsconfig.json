@@ -19,7 +19,11 @@
         "module": "commonjs",
         "outDir": "dist",
         "sourceMap": true,
-        "target": "es6"
+        "target": "es6",
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./src/*"]
+        }
     },
-    "include": ["src", "src/@types/**/*.d.ts"]
+    "include": ["src/@types/**/*.d.ts"]
 }

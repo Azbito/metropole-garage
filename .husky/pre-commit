@@ -3,12 +3,12 @@
 
 cd frontend
 
-npm run lint
-npm run format
+pnpm run lint
+pnpm run format
 
 cd ../
 
 cd backend
 
-npm run lint
-npm run format
+pnpm run lint
+pnpm run format

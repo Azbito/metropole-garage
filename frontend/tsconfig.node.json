@@ -5,8 +5,7 @@
         "lib": ["ES2023"],
         "module": "ESNext",
         "skipLibCheck": true,
-
-        /* Bundler mode */
+        "jsx": "react-jsx",
         "moduleResolution": "bundler",
         "allowImportingTsExtensions": false,
         "isolatedModules": true,
@@ -15,8 +14,6 @@
         "declaration": true,
         "declarationMap": true,
         "outDir": "dist/node",
-
-        /* Linting */
         "strict": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,

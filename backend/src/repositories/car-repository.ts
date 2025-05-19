@@ -1,25 +1,27 @@
-import { PrismaClient } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 
 import { ICar } from '@/interfaces/car';
+import { inject, injectable } from 'tsyringe';
+import { Prisma } from '@/libs/prisma';
 
+@injectable()
 export class CarRepository {
-    private prisma = new PrismaClient();
+    constructor(@inject(Prisma) private prisma: Prisma) {}
 
-    public async getCarsByOwner(owner: string): Promise<ICar[]> {
-        return await this.prisma.car.findMany({
-            where: { owner },
+    public async getCarsByUser(userId: string): Promise<ICar[]> {
+        return await this.prisma.client.car.findMany({
+            where: { userId },
         });
     }
 
     public async getCarByPlate(plate: string): Promise<ICar | null> {
-        return await this.prisma.car.findUnique({
+        return await this.prisma.client.car.findUnique({
             where: { plate },
         });
     }
 
-    public async createCar(data: ICar): Promise<ICar> {
-        return await this.prisma.car.create({
+    public async createCar(data: Omit<ICar, 'id'>): Promise<ICar> {
+        return await this.prisma.client.car.create({
             data: {
                 ...data,
                 id: uuidv4(),

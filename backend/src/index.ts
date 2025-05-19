@@ -1,23 +1,24 @@
-import cors from '@fastify/cors';
+import 'reflect-metadata';
+
+import fastifyCookie from '@fastify/cookie';
 import dotenv from 'dotenv';
 import Fastify from 'fastify';
 
-import prismaPlugin from '@/plugins/prisma';
+import { registerDependencies } from './container';
 
-import { carRoutes } from '@/routes/cars-routes';
-import { userRoutes } from '@/routes/users-routes';
+async function bootstrap() {
+    dotenv.config();
 
-dotenv.config();
+    const app = Fastify();
 
-const app = Fastify();
+    app.register(fastifyCookie);
 
-app.register(cors);
-app.register(prismaPlugin);
-app.register(carRoutes);
-app.register(userRoutes);
+    registerDependencies(app);
 
-app.listen({ port: 3001 }, (err, address) => {
-    if (err) throw err;
+    app.listen({ port: 3001 }, (err, address) => {
+        if (err) throw err;
+        console.log(`🎈 Server running at ${address}`);
+    });
+}
 
-    console.log(`🎈 Server running at ${address}`);
-});
+bootstrap();

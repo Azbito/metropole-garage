@@ -1,6 +1,6 @@
 import { StrictMode } from 'react';
 
-import HomePage from '@/pages/home.tsx';
+import HomePage from '@/pages/home';
 
 import '@/styles/global.css';
 

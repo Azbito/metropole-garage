@@ -1,13 +1,15 @@
-import { PrismaClient } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 
 import { IUser } from '@/interfaces/user';
+import { inject, injectable } from 'tsyringe';
+import { Prisma } from '@/libs/prisma';
 
+@injectable()
 export class UserRepository {
-    private prisma = new PrismaClient();
+    constructor(@inject(Prisma) private prisma: Prisma) {}
 
     public async create(data: IUser): Promise<IUser> {
-        return await this.prisma.user.create({
+        return await this.prisma.client.user.create({
             data: {
                 id: data.id ?? uuidv4(),
                 steam_id: data.steam_id,
@@ -17,9 +19,17 @@ export class UserRepository {
     }
 
     public async findBySteamId(steamId: string): Promise<IUser | null> {
-        return await this.prisma.user.findFirst({
+        return await this.prisma.client.user.findFirst({
             where: {
                 steam_id: steamId,
+            },
+        });
+    }
+
+    public async getById(id: string): Promise<IUser | null> {
+        return await this.prisma.client.user.findFirst({
+            where: {
+                id,
             },
         });
     }
