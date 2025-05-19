@@ -36,8 +36,6 @@ const prettierConfig = {
         '',
         '^[./]',
     ],
-    importOrderSortSpecifiers: true,
-    importOrderSeparation: true,
 
     plugins: [
         'prettier-plugin-tailwindcss',
