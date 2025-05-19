@@ -2,17 +2,8 @@
 
 ## Videos
 
-### Website side
-
-<video src="./videos/web.mp4" controls width="600">
-  Your browser does not support the video tag.
-</video>
-
-### FiveM side
-
-<video src="./videos/fivem.mp4" controls width="600">
-  Your browser does not support the video tag.
-</video>
+- [FiveM Video](https://youtu.be/NPurdZPErGs)
+- [Website Video](https://youtu.be/R7HqlvyEcDU)
 
 ## Documentation
 
